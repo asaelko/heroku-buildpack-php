@@ -9,7 +9,7 @@ set -eu
 # move hidden files too, just in case
 shopt -s dotglob
 
-STACK=${STACK:-cedar-14} # Anvil has none
+STACK=${STACK:-heroku-18} # Anvil has none
 build_dir=$1
 cache_dir=$2/php
 mkdir -p "$cache_dir"
@@ -214,14 +214,14 @@ if [[ "${HEROKU_PHP_PLATFORM_REPOSITORIES}" == *" - "* ]]; then
 fi
 
 # libreadline
-
-curl_retry_on_18 --fail --silent --location -o $build_dir/.heroku/libreadline6.deb "http://archive.ubuntu.com/ubuntu/pool/main/r/readline6/libreadline6-dev_6.3-8ubuntu2_i386.deb" || {
-  mcount "failures.bootstrap.download.libreadline"
-	error <<-EOF
-		Failed to download libreadline!
-	EOF
-}
-dpkg -i $build_dir/.heroku/libreadline6.deb
+#
+#curl_retry_on_18 --fail --silent --location -o $build_dir/.heroku/libreadline6.deb "http://archive.ubuntu.com/ubuntu/pool/main/r/readline6/libreadline6-dev_6.3-8ubuntu2_i386.deb" || {
+#  mcount "failures.bootstrap.download.libreadline"
+#	error <<-EOF
+#		Failed to download libreadline!
+#	EOF
+#}
+#dpkg -i $build_dir/.heroku/libreadline6.deb
 
 # minimal PHP needed for installs, and make "composer" invocations use that for now
 mkdir -p $build_dir/.heroku/php-min
