@@ -16,8 +16,6 @@ mkdir -p "$cache_dir"
 env_dir=${3:-} # Anvil has none
 bp_dir=$(cd $(dirname $0); cd ..; pwd)
 
-apt install libreadline-dev
-
 export BPLOG_PREFIX="buildpack.php"
 export BUILDPACK_LOG_FILE=${BUILDPACK_LOG_FILE:-/dev/null}
 
@@ -215,6 +213,15 @@ if [[ "${HEROKU_PHP_PLATFORM_REPOSITORIES}" == *" - "* ]]; then
 	notice_inline "Bootstrapping using ${s3_url}..."
 fi
 
+# libreadline
+
+curl_retry_on_18 --fail --silent --location -o $build_dir/.heroku/libreadline6.deb "http://archive.ubuntu.com/ubuntu/pool/main/r/readline6/libreadline6-dev_6.3-8ubuntu2_i386.deb" || {
+  mcount "failures.bootstrap.download.libreadline"
+	error <<-EOF
+		Failed to download libreadline!
+	EOF
+}
+dpkg -i $build_dir/.heroku/libreadline6.deb
 
 # minimal PHP needed for installs, and make "composer" invocations use that for now
 mkdir -p $build_dir/.heroku/php-min
