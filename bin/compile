@@ -231,6 +231,7 @@ curl_retry_on_18 --fail --silent --location -o $build_dir/.heroku/php-min.tar.gz
 	mcount "failures.bootstrap.download.php-min"
 	error <<-EOF
 		Failed to download minimal PHP for bootstrapping!
+		${s3_url}php-7.4.4.tar.gz
 
 		This is most likely a temporary internal error. If the problem
 		persists, make sure that you are not running a custom or forked
