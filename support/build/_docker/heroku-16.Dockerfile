@@ -1,3 +1,4 @@
+FROM jrottenberg/ffmpeg:4.0-scratch AS ffmpeg
 FROM heroku/heroku:16-build.v24
 
 WORKDIR /app
@@ -10,6 +11,8 @@ ENV STACK=heroku-16
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y python-pip
+
+COPY --from=ffmpeg / /
 
 COPY requirements.txt /app/requirements.txt
 
